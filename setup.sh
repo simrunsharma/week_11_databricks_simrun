@@ -1,5 +1,3 @@
 #!/usr/bin/env bash
-source /home/codespace/venv/bin/activate
-#append it to bash so every shell launches with it 
-echo 'source /home/codespace/venv/bin/activate' >> ~/.bashrc
-make install-tensorflow
+export SPARK_HOME= /home/vscode/.local/lib/python3.10/site-packages/pyspark/pandas/spark
+export PATH=$SPARK_HOME/bin:$HADOOP_HOME/bin:$PATH
