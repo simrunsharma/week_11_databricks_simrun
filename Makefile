@@ -1,25 +1,17 @@
 install:
-	pip install --upgrade pip &&\
-		pip install -r requirements.txt
-
-test:
-	python -m pytest -vv --cov=main --cov=mylib test_*.py
+	pip install -r requirements.txt
 
 format:	
-	black *.py 
+	find . -type f -name "*.py" -exec black {} \;
+	find . -type f -name "*.ipynb" -exec nbqa black {} \;
+
 
 lint:
-	#disable comment to test speed
-	#pylint --disable=R,C --ignore-patterns=test_.*?py *.py mylib/*.py
-	#ruff linting is 10-100X faster than pylint
-	ruff check *.py mylib/*.py
+	find . -type f -name "*.py" -exec ruff check {} \;
+	find . -type f -name "*.ipynb" -exec nbqa ruff {} \;
 
-container-lint:
-	docker run --rm -i hadolint/hadolint < Dockerfile
+test:
+	# python -m pytest -vv --cov=codes/project_codes codes/test_codes/*.py
+	# python -m pytest --nbval codes/project_codes/*.ipynb 
 
-refactor: format lint
-
-deploy:
-	#deploy goes here
-		
-all: install lint test format deploy
+all : install test format lint 
